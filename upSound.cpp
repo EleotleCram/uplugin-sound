@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include "tone2.h"
 #include "upSound.h"
 
 #include <digitalFastIO.h>
@@ -19,7 +20,7 @@ void upSound::loop() {
   }
 
   // Play note
-#ifdef SOFT_TONE
+#if defined(TONE_GENERATOR) && TONE_GENERATOR == SOFT_TONE
   if (half_period > 0) {
     EVERY(half_period MICROSECONDS) {
       static bool state = true;
@@ -29,14 +30,18 @@ void upSound::loop() {
   }
 #else
   if (freq > 0) {
+#if defined(TONE_GENERATOR) && TONE_GENERATOR == TONE2
+    ::tone2(speaker, freq);
+#else
     ::tone(speaker, freq);
+#endif
   }
 #endif
 }
 
 void upSound::tone(uint16_t freq, uint32_t duration = 0) {
   if (freq > 0 && duration > 0) {
-#ifdef SOFT_TONE
+#if defined(TONE_GENERATOR) && TONE_GENERATOR == SOFT_TONE
     this->half_period = 1000000 / freq / 2;
 #else
     this->freq = freq;
@@ -47,11 +52,15 @@ void upSound::tone(uint16_t freq, uint32_t duration = 0) {
 }
 
 void upSound::noTone() {
-#ifdef SOFT_TONE
+#if defined(TONE_GENERATOR) && TONE_GENERATOR == SOFT_TONE
   half_period = 0;
   digitalWriteFast(speaker, 0);
 #else
   freq = 0;
+#if defined(TONE_GENERATOR) && TONE_GENERATOR == TONE2
+  ::noTone2(speaker);
+#else
   ::noTone(speaker);
+#endif
 #endif
 }

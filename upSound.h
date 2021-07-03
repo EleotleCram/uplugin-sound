@@ -1,13 +1,16 @@
 #pragma once
 
-// #include <cstdint>
+#include <stdint.h>
 #include <uPlugin.h>
+
+#define SOFT_TONE 1
+#define TONE2 2
 
 class upSound : public uPlugin {
 private:
   uint8_t speaker;
   uint32_t end_time;
-#ifdef SOFT_TONE
+#if defined(TONE_GENERATOR) && TONE_GENERATOR == SOFT_TONE
   uint16_t half_period;
 #else
   uint16_t freq;
