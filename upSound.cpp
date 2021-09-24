@@ -6,6 +6,14 @@
 #include <digitalFastIO.h>
 #include <every.h>
 
+#ifdef DEBUG_ALL
+#define DEBUG_UPSOUND
+#endif
+
+#ifdef DEBUG_UPSOUND
+#include <aprintf.h>
+#endif
+
 void upSound::setup() {
   pinMode(speaker, OUTPUT);
 }
@@ -48,6 +56,10 @@ void upSound::tone(uint16_t freq, uint32_t duration = 0) {
 #endif
 
     this->end_time = duration > 0 ? millis() + duration : 0;
+
+#ifdef DEBUG_UPSOUND
+    aprintf("upSound::tone: F=%d dur(ms)=%d\n", this->freq, duration);
+#endif
   }
 }
 
