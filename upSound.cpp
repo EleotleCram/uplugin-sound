@@ -40,14 +40,14 @@ void upSound::loop() {
 }
 
 void upSound::tone(uint16_t freq, uint32_t duration = 0) {
-  if (freq > 0 && duration > 0) {
+  if (freq > 0) {
 #if defined(TONE_GENERATOR) && TONE_GENERATOR == SOFT_TONE
     this->half_period = 1000000 / freq / 2;
 #else
     this->freq = freq;
 #endif
 
-    this->end_time = duration ? millis() + duration : 0;
+    this->end_time = duration > 0 ? millis() + duration : 0;
   }
 }
 
