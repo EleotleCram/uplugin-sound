@@ -14,9 +14,7 @@
 #include <aprintf.h>
 #endif
 
-void upSound::setup() {
-  pinMode(speaker, OUTPUT);
-}
+void upSound::setup() {}
 
 void upSound::loop() {
 
@@ -49,6 +47,8 @@ void upSound::loop() {
 
 void upSound::tone(uint16_t freq, uint32_t duration = 0) {
   if (freq > 0) {
+    pinMode(speaker, OUTPUT);
+
 #if defined(TONE_GENERATOR) && TONE_GENERATOR == SOFT_TONE
     this->half_period = 1000000 / freq / 2;
 #else
@@ -75,4 +75,5 @@ void upSound::noTone() {
   ::noTone(speaker);
 #endif
 #endif
+  pinMode(speaker, INPUT_PULLUP);
 }
