@@ -23,5 +23,6 @@ public:
   void loop();
 
   void tone(uint16_t freq, uint32_t duration = 0);
+  void tone(uint16_t freq, uint32_t duration, __attribute__((unused)) uint32_t (&)());
   void noTone();
 };

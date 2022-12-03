@@ -63,6 +63,10 @@ void upSound::tone(uint16_t freq, uint32_t duration = 0) {
   }
 }
 
+void upSound::tone(uint16_t freq, uint32_t duration, __attribute__((unused)) uint32_t (&)()) {
+  upSound::tone(freq, duration);
+}
+
 void upSound::noTone() {
 #if defined(TONE_GENERATOR) && TONE_GENERATOR == SOFT_TONE
   half_period = 0;
